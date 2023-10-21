@@ -97,4 +97,4 @@ function getRandomSentences() {
     }
   }
   return chosenSentences;
-}
+
