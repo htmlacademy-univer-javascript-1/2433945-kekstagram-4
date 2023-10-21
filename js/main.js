@@ -1,3 +1,10 @@
+const PICTURE_COUNT = 25;
+const AVATAR_COUNT = 6;
+const LIKE_MIN_COUNT = 15;
+const LIKE_MAX_COUNT = 200;
+const COMMENT_MAX_COUNT = 200;
+const COMMENT_COUNT = 30;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -5,15 +12,12 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
 const createRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
 
   return function () {
     let currentValue = getRandomInteger(min, max);
     if (previousValues.length >= (max - min + 1)) {
-      console.error('Перебраны все идентификаторы опубликованных фотографий');
       return null;
     }
     while (previousValues.includes(currentValue)) {
@@ -23,41 +27,8 @@ const createRandomIdFromRangeGenerator = (min, max) => {
     return currentValue;
   };
 };
+
 const createRandomId = createRandomIdFromRangeGenerator(1, 25);
-const createPublicPhoto = () => ({
-  id: createRandomId(),
-  url: 'img/avatar-' + getRandomInteger(1, 25) + '.svg',
-  description: getRandomArrayElement(CHARACTERISTICS),
-  likes: getRandomInteger(15, 200),
-  comments: Array.from({ length: getRandomInteger(0, 30) }, createComment)
-});
-const randomIdComment = createRandomIdFromRangeGenerator(1, 500);
-const createComment = () => ({
-  id: randomIdComment() ,
-  avatar: 'img/avatar-' + getRandomInteger(1,6) + '.svg',
-  message: getRandomArrayElement(MESSAGES),
-    name: getRandomArrayElement(NAMES)
-});
-
-
-function getRandomSentences() {
-  const chosenSentences = [];
-  const usedIndices = [];
-  if (getRandomInteger(1,2) === 1){
-    const randomIndex = Math.floor(Math.random() * MESSAGES.length);
-    return MESSAGES[randomIndex];
-  }
-  else {
-    while (chosenSentences.length < 2) {
-    const randomIndex = Math.floor(Math.random() * MESSAGES.length);
-      if (!usedIndices.includes(randomIndex)) {
-        chosenSentences.push(MESSAGES[randomIndex]);
-        usedIndices.push(randomIndex);
-      }
-    }
-  }
-  return chosenSentences;
-}
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо.',
@@ -90,3 +61,40 @@ const CHARACTERISTICS = [
   'Показания счётчиков за 15 апреля',
 ];
 
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+
+
+const createPublicPhoto = () => ({
+  id: createRandomId(1, PICTURE_COUNT),
+  url: 'photos/'+ getRandomInteger(1, PICTURE_COUNT)+'.jpg',
+  description: getRandomArrayElement(CHARACTERISTICS),
+  likes: getRandomInteger( LIKE_MIN_COUNT, LIKE_MAX_COUNT),
+  comments: Array.from({ length: getRandomInteger(0, COMMENT_COUNT) }, createComment)
+});
+
+const createComment = () => ({
+  id: createRandomId(1, COMMENT_MAX_COUNT) ,
+  avatar: 'img/avatar-'+ getRandomInteger(1, AVATAR_COUNT) +'.svg',
+  message: getRandomArrayElement(MESSAGES),
+    name: getRandomArrayElement(NAMES)
+});
+
+
+function getRandomSentences() {
+  const chosenSentences = [];
+  const usedIndices = [];
+  if (getRandomInteger(1,2) === 1){
+    const randomIndex = Math.floor(Math.random() * MESSAGES.length);
+    return MESSAGES[randomIndex];
+  }
+  else {
+    while (chosenSentences.length < 2) {
+    const randomIndex = Math.floor(Math.random() * MESSAGES.length);
+      if (!usedIndices.includes(randomIndex)) {
+        chosenSentences.push(MESSAGES[randomIndex]);
+        usedIndices.push(randomIndex);
+      }
+    }
+  }
+  return chosenSentences;
+}
