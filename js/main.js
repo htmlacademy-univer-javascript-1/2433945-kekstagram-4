@@ -4,31 +4,6 @@ const LIKE_MIN_COUNT = 15;
 const LIKE_MAX_COUNT = 200;
 const COMMENT_MAX_COUNT = 200;
 const COMMENT_COUNT = 30;
-
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
-const createRandomIdFromRangeGenerator = (min, max) => {
-  const previousValues = [];
-
-  return function () {
-    let currentValue = getRandomInteger(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      return null;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-};
-
-const createRandomId = createRandomIdFromRangeGenerator(1, 25);
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо.',
@@ -61,35 +36,40 @@ const CHARACTERISTICS = [
   'Показания счётчиков за 15 апреля',
 ];
 
+
+const getRandomInteger = (a, b) => {
+  const lower = Math.ceil(Math.min(a, b));
+  const upper = Math.floor(Math.max(a, b));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
+};
+
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-
 const createPublicPhoto = () => ({
-  id: createRandomId(1, PICTURE_COUNT),
-  url: 'photos/'+ getRandomInteger(1, PICTURE_COUNT)+'.jpg',
+  id: getRandomInteger(1, PICTURE_COUNT),
+  url: photos/${getRandomInteger(1, PICTURE_COUNT)}.jpg,
   description: getRandomArrayElement(CHARACTERISTICS),
-  likes: getRandomInteger( LIKE_MIN_COUNT, LIKE_MAX_COUNT),
+  likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
   comments: Array.from({ length: getRandomInteger(0, COMMENT_COUNT) }, createComment)
 });
 
 const createComment = () => ({
-  id: createRandomId(1, COMMENT_MAX_COUNT) ,
-  avatar: 'img/avatar-'+ getRandomInteger(1, AVATAR_COUNT) +'.svg',
+  id: getRandomInteger(1, COMMENT_MAX_COUNT),
+  avatar: img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg,
   message: getRandomArrayElement(MESSAGES),
-    name: getRandomArrayElement(NAMES)
+  name: getRandomArrayElement(NAMES)
 });
-
 
 function getRandomSentences() {
   const chosenSentences = [];
   const usedIndices = [];
-  if (getRandomInteger(1,2) === 1){
+  if (getRandomInteger(1, 2) === 1) {
     const randomIndex = Math.floor(Math.random() * MESSAGES.length);
     return MESSAGES[randomIndex];
-  }
-  else {
+  } else {
     while (chosenSentences.length < 2) {
-    const randomIndex = Math.floor(Math.random() * MESSAGES.length);
+      const randomIndex = Math.floor(Math.random() * MESSAGES.length);
       if (!usedIndices.includes(randomIndex)) {
         chosenSentences.push(MESSAGES[randomIndex]);
         usedIndices.push(randomIndex);
