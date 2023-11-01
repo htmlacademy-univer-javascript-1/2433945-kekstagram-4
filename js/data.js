@@ -1,11 +1,11 @@
-import { getRandomInteger, getRandomArrayElement } from './util.js';import { getRandomInteger, getRandomArrayElement } from './util.js';
-export const PICTURE_COUNT = 25;
-export const AVATAR_COUNT = 6;
-export const LIKE_MIN_COUNT = 15;
-export const LIKE_MAX_COUNT = 200;
-export const COMMENT_MAX_COUNT = 200;
-export const COMMENT_COUNT = 30;
-export const MESSAGES = [
+import {getRandomInteger, getRandomArrayElement } from './util.js';
+const PICTURE_COUNT = 25;
+const AVATAR_COUNT = 6;
+const LIKE_MIN_COUNT = 15;
+const LIKE_MAX_COUNT = 200;
+const COMMENT_MAX_COUNT = 200;
+const COMMENT_COUNT = 30;
+const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо.',
   'Но не всё.',
@@ -17,7 +17,7 @@ export const MESSAGES = [
   'Как можно было поймать такой неудачный момент?!',
 ];
 
-export const NAMES = [
+const NAMES = [
   'Иван',
   'Хуан Себастьян',
   'Мария',
@@ -28,7 +28,7 @@ export const NAMES = [
   'Вашингтон',
 ];
 
-export const CHARACTERISTICS = [
+const CHARACTERISTICS = [
   'Милый котик',
   'Это фото моей жены',
   'Закатное солнце в Калифорнии',
@@ -37,13 +37,19 @@ export const CHARACTERISTICS = [
   'Показания счётчиков за 15 апреля',
 ];
 
-export const createPublicPhoto = () => ({
+const createPublicPhoto = () => ({
   id: getRandomInteger(1, PICTURE_COUNT),
-  url: photos/${getRandomInteger(1, PICTURE_COUNT)}.jpg,
-  description: getRandomArrayElement(CHARACTERISTICS),
+  url: photos/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg,
+  description: getRandomArrayElement(PICTURE_CHARACTERISTICS),
   likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
-  comments: Array.from({ length: getRandomInteger(0, COMMENT_COUNT) }, createComment)
+  comments: Array.from({ length: getRandomInteger(0, COMMENT_COUNT) }, createComment),
 });
+
+
+const generatePhotos = () =>
+  Array.from({ length: PICTURE_COUNT }, (_, photoIndex) =>
+    createPublicPhoto(photoIndex + 1)
+  );
 
 export const createComment = () => ({
   id: getRandomInteger(1, COMMENT_MAX_COUNT),
