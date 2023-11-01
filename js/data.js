@@ -51,14 +51,14 @@ const generatePhotos = () =>
     createPublicPhoto(photoIndex + 1)
   );
 
-export const createComment = () => ({
+const createComment = () => ({
   id: getRandomInteger(1, COMMENT_MAX_COUNT),
   avatar: img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg,
   message: getRandomArrayElement(MESSAGES),
   name: getRandomArrayElement(NAMES)
 });
 
-export const getRandomSentences = () => {
+const getRandomSentences = () => {
   const chosenSentences = [];
   const usedIndices = [];
   if (getRandomInteger(1, 2) === 1) {
