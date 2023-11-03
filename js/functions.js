@@ -30,9 +30,3 @@ function convertTimeToMinutes(time) {
   const [hours, minutes] = time.split(':');
   return parseInt(hours, 10) * 60 + parseInt(minutes, 10);
 }
-
-console.log(checkMeetingTime('8:00', '17:30', '14:00', 90)); // true
-console.log(checkMeetingTime('8:0', '10:0', '8:0', 120));     // true
-console.log(checkMeetingTime('8:00', '14:30', '14:00', 90)); // false
-console.log(checkMeetingTime('14:00', '17:30', '8:0', 90));  // false
-console.log(checkMeetingTime('8:00', '17:30', '08:00', 900)); // false
