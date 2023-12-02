@@ -1,10 +1,12 @@
-import {getRandomInteger, getRandomArrayElement } from './util.js';
+import { generateID, getRandomArrayElement, getRandomInteger } from './util.js';
+
 const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;
 const LIKE_MIN_COUNT = 15;
 const LIKE_MAX_COUNT = 200;
-const COMMENT_MAX_COUNT = 200;
 const COMMENT_COUNT = 30;
+const COMMENT_MIN_COUNT = 1;
+const COMMENT_MAX_COUNT = 2;
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо.',
@@ -17,17 +19,6 @@ const MESSAGES = [
   'Как можно было поймать такой неудачный момент?!',
 ];
 
-const NAMES = [
-  'Иван',
-  'Хуан Себастьян',
-  'Мария',
-  'Кристоф',
-  'Виктор',
-  'Юлия',
-  'Люпита',
-  'Вашингтон',
-];
-
 const CHARACTERISTICS = [
   'Милый котик',
   'Это фото моей жены',
@@ -37,41 +28,46 @@ const CHARACTERISTICS = [
   'Показания счётчиков за 15 апреля',
 ];
 
-const createPublicPhoto = () => ({
-  id: getRandomInteger(1, PICTURE_COUNT),
-  url: photos/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg,
-  description: getRandomArrayElement(PICTURE_CHARACTERISTICS),
-  likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
-  comments: Array.from({ length: getRandomInteger(0, COMMENT_COUNT) }, createComment),
-});
+const NAMES = [
+  'Иван',
+  'Хуан Себастьян',
+  'Мария',
+  'Кристоф',
+  'Виктор',
+  'Юлия',
+  'Люпита',
+  'Вашингтон',
+  'Лев'
+];
 
+const generateCommentID = generateID();
 
-const generatePhotos = () =>
-  Array.from({ length: PICTURE_COUNT }, (_, photoIndex) =>
-    createPublicPhoto(photoIndex + 1)
-  );
+const createMessage = () => Array.from(
+  { length: getRandomInteger(COMMENT_MIN_COUNT, COMMENT_MAX_COUNT) },
+  () => getRandomArrayElement(MESSAGES),
+).join(' ');
 
 const createComment = () => ({
-  id: getRandomInteger(1, COMMENT_MAX_COUNT),
-  avatar: img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg,
-  message: getRandomArrayElement(MESSAGES),
-  name: getRandomArrayElement(NAMES)
+  id: generateCommentID(),
+  avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
+  message: createMessage(),
+  name: getRandomArrayElement(NAMES),
 });
 
-const getRandomSentences = () => {
-  const chosenSentences = [];
-  const usedIndices = [];
-  if (getRandomInteger(1, 2) === 1) {
-    const randomIndex = Math.floor(Math.random() * MESSAGES.length);
-    return MESSAGES[randomIndex];
-  } else {
-    while (chosenSentences.length < 2) {
-      const randomIndex = Math.floor(Math.random() * MESSAGES.length);
-      if (!usedIndices.includes(randomIndex)) {
-        chosenSentences.push(MESSAGES[randomIndex]);
-        usedIndices.push(randomIndex);
-      }
-    }
-  }
-  return chosenSentences;
-};
+const createPicture = (index) => ({
+  id: index,
+  url: `photos/${index}.jpg`,
+  description: getRandomArrayElement(CHARACTERISTICS),
+  likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
+  comments: Array.from(
+    { length: getRandomInteger(0, COMMENT_COUNT) },
+    createComment,
+  ),
+});
+
+const getPictures = () => Array.from (
+  { length : PICTURE_COUNT },
+  (_, pictureIndex) => createPicture(pictureIndex + 1),
+);
+
+export {getPictures};
