@@ -11,7 +11,7 @@ function isPalindrome(str) {
 }
 
 isPalindrome('Город Ижевск свеж и дорог');
-*/
+
 
 function checkMeetingTime(startOfWorkday, endOfWorkday, startOfMeeting, meetingDuration) {
   const startOfWorkdayMinutes = convertTimeToMinutes(startOfWorkday);
@@ -30,3 +30,4 @@ function convertTimeToMinutes(time) {
   const [hours, minutes] = time.split(':');
   return parseInt(hours, 10) * 60 + parseInt(minutes, 10);
 }
+*/
