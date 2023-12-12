@@ -22,4 +22,5 @@ const renderMiniatures = (pictures) => {
   container.append(fragment);
 };
 
-export { renderMiniatures };
+
+export {renderMiniatures};
