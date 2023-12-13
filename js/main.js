@@ -1,4 +1,5 @@
-import { getPictures } from './data.js';
-import { renderMiniatures } from './miniature.js';
+import { pictures } from './data.js';
+import { renderMiniatures } from './miniatures.js';
+import './fullSize.js';
 
-renderMiniatures(getPictures());
+renderMiniatures(pictures);
