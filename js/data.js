@@ -7,6 +7,8 @@ const LIKE_MAX_COUNT = 200;
 const COMMENT_COUNT = 30;
 const COMMENT_MIN_COUNT = 1;
 const COMMENT_MAX_COUNT = 2;
+const AVATAR_WIDTH = 35;
+const AVATAR_HEIGHT = 35;
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо.',
@@ -72,4 +74,4 @@ const getPictures = () => Array.from (
 
 const pictures = getPictures();
 
-export { pictures };
+export { pictures, AVATAR_WIDTH, AVATAR_HEIGHT};
