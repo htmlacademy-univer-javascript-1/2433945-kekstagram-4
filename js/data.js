@@ -9,6 +9,7 @@ const COMMENT_MIN_COUNT = 1;
 const COMMENT_MAX_COUNT = 2;
 const AVATAR_WIDTH = 35;
 const AVATAR_HEIGHT = 35;
+const LOADED_COMMENTS_COUNT = 5;
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо.',
@@ -74,4 +75,4 @@ const getPictures = () => Array.from (
 
 const pictures = getPictures();
 
-export { pictures, AVATAR_WIDTH, AVATAR_HEIGHT};
+export { pictures, AVATAR_WIDTH, AVATAR_HEIGHT, LOADED_COMMENTS_COUNT};
