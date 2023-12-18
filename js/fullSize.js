@@ -1,5 +1,6 @@
 import { pictures } from './data.js';
-import { AVATAR_HEIGHT, AVATAR_WIDTH } from './data.js';
+import { AVATAR_HEIGHT, AVATAR_WIDTH, LOADED_COMMENTS_COUNT } from './data.js';
+import { closeOverlay } from './form.js';
 
 const picturesList = document.querySelector('.pictures');
 const fullSizePicture = document.querySelector('.big-picture');
@@ -13,7 +14,7 @@ const closeFullSizePicture = () => {
 };
 
 const loadComments = (hiddenComments) => {
-  let commentCount = 5;
+  let commentCount = LOADED_COMMENTS_COUNT;
   if (hiddenComments.length <= commentCount) {
     commentCount = hiddenComments.length;
     commentLoaderButton.classList.add('hidden');
@@ -28,7 +29,16 @@ const loadComments = (hiddenComments) => {
 document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
+
     closeFullSizePicture();
+    closeOverlay();
+  }
+});
+
+document.body.addEventListener('click', (evt) =>{
+  if (evt.target.classList.contains('big-picture') || evt.target.classList.contains('img-upload__overlay')){
+    closeFullSizePicture();
+    closeOverlay();
   }
 });
 
@@ -86,10 +96,9 @@ const getPictureById = (id) =>{
 };
 
 picturesList.addEventListener('click', (evt) => {
-  evt.preventDefault();
   const target = evt.target;
-
-  if (target.tagName === 'IMG') {
+  if (target.tagName === 'IMG' & !document.body.classList.contains('modal-open')) {
+    evt.preventDefault();
     showFullSizePicture(getPictureById(target.id));
   }
 });
