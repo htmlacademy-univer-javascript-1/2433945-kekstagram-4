@@ -1,3 +1,5 @@
+import { initEffect, resetEffect } from './filters.js';
+import { resetScale } from './scale.js';
 const MAX_HASHTEGS = 5;
 const MAX_COMMENTS_LENGTH = 140;
 
@@ -33,6 +35,8 @@ const closeOverlay =() => {
   if (isTextFiledFocused()){
     return;
   }
+  resetEffect();
+  resetScale();
   body.classList.remove('modal-open');
   pictureOverlay.classList.add('hidden');
   cancelButton.removeEventListener('click', closeOverlay);
@@ -84,5 +88,6 @@ form.addEventListener('submit', (evt) => {
     scale.value = '100%';
   }
 });
+initEffect();
 
 export {closeOverlay};
