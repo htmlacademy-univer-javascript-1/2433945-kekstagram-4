@@ -1,5 +1,3 @@
-import { isEscapeKey } from './util.js';
-
 const COMMENTS_LOADED_COUNT = 5;
 
 const bigPictureElement = document.querySelector('.big-picture');
@@ -24,10 +22,10 @@ const getCommentTemplate = (comment) => `
 
 const renderComments = () => {
   commentsShownCount += COMMENTS_LOADED_COUNT;
-  loadButtonElement.classList.toggle('hidden', commentsShownCount >= commentsArray.length);
-  const commentsSet = commentsArray.slice(0, commentsShownCount);
+  loadButtonElement.classList.toggle('hidden', commentsShownCount >= commentsArray.length || commentsShownCount === commentsArray.length);
+  const commentsSet = commentsArray.slice(0, commentsShownCount > commentsArray.length ? commentsArray.length : commentsShownCount);
   commentsListElement.innerHTML = commentsSet.map((comment) => getCommentTemplate(comment)).join('');
-  commentsShownCountElement.textContent = commentsShownCount;
+  commentsShownCountElement.textContent = commentsShownCount > commentsArray.length ? commentsArray.length : commentsShownCount;
 };
 
 const onLoadButtonClick = () => {
@@ -61,11 +59,12 @@ const closeFullsizePicture = () => {
 };
 
 function onDocumentKeyDown(evt) {
-  if (isEscapeKey) {
+  if (evt.key === 'Escape') {
     evt.preventDefault();
     closeFullsizePicture();
   }
 }
+
 
 const onCancelButtonClick = () => {
   closeFullsizePicture();
