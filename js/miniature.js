@@ -1,25 +1,42 @@
-const miniatureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+import { showFullsizePicture } from './fullSize.js';
+
+const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
+let pictures = null;
 
-const createminiature = ({ id, comments, description, likes, url }) => {
-  const miniature = miniatureTemplate.cloneNode(true);
+const onPicturesContainerClick = (evt) => {
+  const targetElement = evt.target.closest('.picture');
+  if (targetElement) {
+    const id = +targetElement.dataset.pictureId;
+    const miniature = pictures.find((picture) => picture.id === id);
+    showFullsizePicture(miniature);
+  }
+};
 
+const createMiniature = ({url, description, likes, comments, id}) => {
+  const miniature = pictureTemplate.cloneNode(true);
+
+  miniature.dataset.pictureId = id;
   miniature.querySelector('.picture__img').src = url;
   miniature.querySelector('.picture__img').alt = description;
-  miniature.querySelector('.picture__comments').textContent = comments.length;
   miniature.querySelector('.picture__likes').textContent = likes;
-  miniature.querySelector('img').setAttribute('id', id);
+  miniature.querySelector('.picture__comments').textContent = comments.length;
+
   return miniature;
 };
 
-const renderMiniatures = (pictures) => {
-  const fragment = document.createDocumentFragment();
+const renderMiniatures = (data) => {
+  pictures = data.slice();
+  if (!pictures) {
+    return;
+  }
+  const picturesListFragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
-    const miniature = createminiature(picture);
-    fragment.append(miniature);
+    const miniature = createMiniature(picture);
+    picturesListFragment.appendChild(miniature);
   });
-
-  container.append(fragment);
+  container.appendChild(picturesListFragment);
+  container.addEventListener('click', onPicturesContainerClick);
 };
 
 export { renderMiniatures };

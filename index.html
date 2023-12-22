@@ -12,7 +12,6 @@
 
 <body>
   <main>
-
     <!-- Фильтрация изображений от других пользователей -->
     <section class="img-filters  img-filters--inactive  container">
       <h2 class="img-filters__title  visually-hidden">Фильтр фотографий</h2>
@@ -122,8 +121,7 @@
                   <div class="img-upload__field-wrapper">
                     <textarea class="text__description" name="description" placeholder="Ваш комментарий..."
                       data-prestine-maxlength="140"
-                      data-prestine-maxlength-message="Комментарий не должен превышать 140 символов">
-                    </textarea>
+                      data-prestine-maxlength-message="Комментарий не должен превышать 140 символов"></textarea>
                   </div>
                 </fieldset>
 
@@ -211,7 +209,6 @@
     </a>
   </template>
 
-
   <!-- Сообщение с ошибкой загрузки изображения -->
   <template id="error">
     <section class="error">
@@ -236,7 +233,7 @@
   <template id="messages">
     <div class="img-upload__message  img-upload__message--loading">Загружаем...</div>
   </template>
-  <script type="module" src="js/main.js"></script>
+  <script src = "js/main.js" type = "module"></script>
   <script src="vendor/pristine/pristine.min.js"></script>
   <script src="vendor/nouislider/nouislider.js"></script>
 </body>
