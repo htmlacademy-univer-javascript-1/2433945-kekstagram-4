@@ -15,14 +15,14 @@ let pictures = [];
 
 const sortRandomly = () => Math.random() - 0.5;
 const sortByCommentsCount = (pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length;
-
+const getDefaultPicturesOrder = () => pictures.slice();
 const getRandomPicturesOrder = () => pictures.slice().sort(sortRandomly).slice(0, PICTURES_COUNT);
 const getDiscussedPicturesOrder = () => pictures.slice().sort(sortByCommentsCount);
 
 const filterHandlers = {
-  [Filter.DEFAULT]: (data) => data,
-  [Filter.RANDOM]: (data) => getRandomPicturesOrder(data),
-  [Filter.DISCUSSED]: (data) => getDiscussedPicturesOrder(data)
+  [Filter.DEFAULT]: getDefaultPicturesOrder,
+  [Filter.RANDOM]: getRandomPicturesOrder,
+  [Filter.DISCUSSED]: getDiscussedPicturesOrder,
 };
 
 const getFilteredPictures = () => filterHandlers[currentFilter]();
