@@ -2,6 +2,7 @@ import { showFullsizePicture } from './fullSize.js';
 
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
+const PICTURE_SELECTOR = '.picture';
 let pictures = null;
 
 const onPicturesContainerClick = (evt) => {
@@ -26,6 +27,9 @@ const createMiniature = ({url, description, likes, comments, id}) => {
 };
 
 const renderMiniatures = (data) => {
+  document
+    .querySelectorAll(PICTURE_SELECTOR)
+    .forEach((element) => element.remove());
   pictures = data.slice();
   if (!pictures) {
     return;

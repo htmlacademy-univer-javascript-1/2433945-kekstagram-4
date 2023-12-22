@@ -22,6 +22,9 @@ const getCommentTemplate = (comment) => `
 
 const renderComments = () => {
   commentsShownCount += COMMENTS_LOADED_COUNT;
+  if (commentsShownCount >= commentsArray.length ){
+    commentsShownCount = commentsArray.length;
+  }
   loadButtonElement.classList.toggle('hidden', commentsShownCount >= commentsArray.length || commentsShownCount === commentsArray.length);
   const commentsSet = commentsArray.slice(0, commentsShownCount > commentsArray.length ? commentsArray.length : commentsShownCount);
   commentsListElement.innerHTML = commentsSet.map((comment) => getCommentTemplate(comment)).join('');
@@ -59,7 +62,7 @@ const closeFullsizePicture = () => {
 };
 
 function onDocumentKeyDown(evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && !evt.target.querySelector('.error')) {
     evt.preventDefault();
     closeFullsizePicture();
   }
