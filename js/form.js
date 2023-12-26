@@ -1,4 +1,3 @@
-import { isEscapeKey } from './util.js';
 import { initEffects, initScale, resetEffects } from './slider.js';
 import { sendData } from './api.js';
 import { showErrorMessage, showSuccessMessage } from './message.js';
@@ -118,7 +117,7 @@ const onInputUploadElementChange = () => {
 };
 
 function onDocumentKeyDown(evt) {
-  if (isEscapeKey && !isTextFieldFocused()) {
+  if (evt.key === 'Escape' && !isTextFieldFocused()) {
     evt.preventDefault();
     resetEditPopup();
   }
