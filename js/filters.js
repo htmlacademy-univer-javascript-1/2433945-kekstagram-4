@@ -1,15 +1,13 @@
-const PICTURES_COUNT = 10;
-const FILTERS_BUTTON_CLASS = 'img-filters__button';
-const FILTER_ACTIVE_CLASS = `${FILTERS_BUTTON_CLASS}--active`;
-
-const filtersContainer = document.querySelector('.img-filters');
-
 const Filter = {
   DEFAULT: 'filter-default',
   RANDOM: 'filter-random',
   DISCUSSED: 'filter-discussed'
 };
+const PICTURES_COUNT = 10;
+const FILTERS_BUTTON_CLASS = 'img-filters__button';
+const FILTER_ACTIVE_CLASS = `${FILTERS_BUTTON_CLASS}--active`;
 
+const filtersContainer = document.querySelector('.img-filters');
 let currentFilter = Filter.DEFAULT;
 let pictures = [];
 
