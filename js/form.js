@@ -5,6 +5,7 @@ import { showErrorMessage, showSuccessMessage } from './message.js';
 const VALID_SYMBOLS = /^#[a-zа-ё0-9]{1,19}$/i;
 const VALID_FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const MAX_HASHTAG_COUNT = 5;
+const MAX_COMMENT_LENGTH = 140;
 
 const SubmitButtonText = {
   DEFAULT: 'Опубликовать',
@@ -26,10 +27,13 @@ const cancelButtonElement = overlayElement.querySelector('.img-upload__cancel');
 const hashtagFieldElement = formElement.querySelector('.text__hashtags');
 const descriptionFieldElement = formElement.querySelector('.text__description');
 const submitButtonElement = formElement.querySelector('.img-upload__submit');
+const photoPreviewElement = formElement.querySelector('.img-upload__preview img');
+const effectsPreviewElement = formElement.querySelectorAll('.effects__preview');
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error'
 });
 
 const isTextFieldFocused = () =>
@@ -38,7 +42,7 @@ const isTextFieldFocused = () =>
 const normilizeHashtags = (hashtagString) => hashtagString.trim().split(' ').filter((hashtag) => hashtag.length > 0);
 const validateHashtagCount = (value) => normilizeHashtags(value).length <= MAX_HASHTAG_COUNT;
 const validateHashtags = (value) => normilizeHashtags(value).every((hashtag) => VALID_SYMBOLS.test(hashtag));
-const validateDescription = (value) => value.length <= 140;
+const validateDescription = (value) => value.length <= MAX_COMMENT_LENGTH;
 
 const validateUniqueHashtag = (value) => {
   const lowerCaseHashtags = normilizeHashtags(value).map((hashtag) => hashtag.toLowerCase());
@@ -58,8 +62,17 @@ const initValidation = () => {
 };
 
 const openEditPopup = () => {
+  const file = inputUploadElement.files[0];
+  const fileName = file.name.toLowerCase();
+  const validFile = VALID_FILE_TYPES.some((it) => fileName.endsWith(it));
   bodyElement.classList.add('modal-open');
   overlayElement.classList.remove('hidden');
+  if (file && validFile) {
+    photoPreviewElement.src = URL.createObjectURL(file);
+    effectsPreviewElement.forEach((element) => {
+      element.style.backgroundImage = `url('${URL.createObjectURL(file)}')`;
+    });
+  }
 
   document.addEventListener('keydown', onDocumentKeyDown);
   cancelButtonElement.addEventListener('click', onCancelButtonClick);
